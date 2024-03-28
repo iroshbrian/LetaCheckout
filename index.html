@@ -574,7 +574,7 @@
           let totalPrice = basePrice + shippingCost + selectedSlotCost;
           document.getElementById(
             "totalPrice"
-          ).textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+          ).textContent = `KES ${totalPrice.toFixed(2)}`;
         }
 
         document
@@ -602,7 +602,7 @@
             slotDiv.innerHTML = `<h5>${slot.time}</h5><p>Extra cost: KES ${slot.cost}</p>`;
             const notificationDiv = document.createElement("div");
             notificationDiv.className = "notification-option";
-            notificationDiv.innerHTML = `<label style="font-size: 12px"><input type="radio" name="notification" value="yes"> ${slot.notification}</label>`;
+            notificationDiv.innerHTML = `<label style="font-size: 12px"><input type="radio" name="notification" value="yes"> KES {slot.notification}</label>`;
             notificationDiv.style.display = "none"; // Initially hidden
             slotDiv.appendChild(notificationDiv);
             modalBody.appendChild(slotDiv);

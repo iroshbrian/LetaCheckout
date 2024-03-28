@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/style.css" />
+    <style>
+      .main-navbar {
+        background-color: #fff;
+        color: #000;
+        border-bottom: 2px solid #ccc;
+      }
+      .sublevel-navbar {
+        background-color: #cd3234;
+        color: #ffffff;
+        height: 40px; /* Smaller height than the main navbar */
+      }
+      .sublevel-navbar .navbar-nav .nav-link {
+        color: #ffffff;
+        margin-right: 20px;
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+      .theme-color {
+        background-color: #cd3234;
+        color: #ffffff;
+      }
+      body {
+        padding-top: 56px; /* Ensure navbar doesn't overlap content */
+        font-family: "Poppins", sans-serif;
+      }
+      .poppins-regular {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+      .steps span {
+        margin: 0 10px;
+        font-size: 24px;
+        font-weight: 600;
+      }
+      .badge-number {
+        background-color: #ccc;
+        color: #fff;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        line-height: 25px;
+        font-weight: 600;
+        font-size: 18px !important;
+      }
+      .active-step {
+        cursor: pointer;
+      }
+      .active-step .badge-number {
+        background-color: #cd3234;
+      }
+      .checkout-container {
+        padding: 20px;
+        margin: 20px auto;
+        width: 90%;
+      }
+      .order-details {
+        border: 2px solid #cd3234;
+        padding: 20px;
+        border-radius: 2px;
+        margin-top: 20px;
+      }
+      .checkout-form {
+        width: 65%;
+        margin-right: 2%;
+      }
+      .place-order-btn {
+        color: #cd3234;
+        border-color: #cd3234;
+        background-color: #fff;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 1px;
+      }
+      .place-order-btn:hover {
+        background-color: #cd3234;
+        color: #fff;
+      }
+      .inactive-step {
+        color: #ccc;
+        cursor: pointer;
+      }
+      .inactive-step:hover {
+        color: #000;
+      }
+      .label {
+        line-height: 2;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+      .td {
+        font-size: 14px;
+        padding: 20px 0 14px;
+        margin: 0 0 20px;
+        border-bottom: 1px solid #ebebeb;
+        color: #cd3234;
+        text-transform: uppercase;
+      }
+      .shipping-option {
+        margin: 10px 0;
+      }
+      .shipping-description {
+        font-size: 0.8rem;
+      }
+      .shipping-option label img {
+        width: 50px; /* Adjust size as needed */
+        margin-right: 10px;
+      }
+      #totalPrice {
+        font-size: 18px;
+        margin: 20px 0;
+        color: #cd3234;
+      }
+      .divider {
+        position: relative;
+        top: 0;
+        opacity: 0.35;
+        margin: 0 0.3em;
+        font-weight: 300;
+        color: #333;
+        letter-spacing: 0;
+        padding: 0;
+        font-size: 24px;
+      }
+      .navbar .nav-link {
+        font-size: 9px;
+      }
+
+      .navbar .nav-link i {
+        margin-right: 5px; /* Space between icon and text */
+      }
+      /* Modal Styling */
+      .delivery-slot {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+      }
+
+      .delivery-slot h5 {
+        margin: 0;
+        color: #333;
+      }
+
+      .delivery-slot p {
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main Navbar -->
+    <nav class="navbar navbar-expand-lg main-navbar fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"
+          ><img src="img/leta_logo.svg" alt="logo" width="60%"
+        /></a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav mr-auto">
+            <!-- Navbar content like product links can go here -->
+          </div>
+          <!-- Login/SignUp on the right -->
+          <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link" href="#"
+              ><i class="fas fa-user"></i> Login/SignUp</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sublevel Navbar -->
+    <nav
+      class="navbar navbar-expand sublevel-navbar fixed-top"
+      style="top: 56px"
+    >
+      <div class="container" style="justify-content: space-evenly">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Drinks</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Pharmacy</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Food</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">New</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Fruit & Veg</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Ready To Eat</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">Healthy</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Supermarket</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Easter</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid" style="margin-top: 5rem">
+      <div class="steps text-center">
+        <span class="inactive-step"
+          ><span class="badge-number">1</span> SHOPPING CART</span
+        >
+        <span class="divider">&gt;</span>
+        <span class="active-step"
+          ><span class="badge-number">2</span> CHECKOUT DETAILS</span
+        >
+        <span class="divider">&gt;</span>
+        <span class="inactive-step"
+          ><span class="badge-number">3</span> ORDER COMPLETE</span
+        >
+        <span class="divider">&gt;</span>
+      </div>
+      <!-- Checkout Form and Order Details -->
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-7">
+            <!-- Checkout Form -->
+            <div class="checkout-container">
+              <div>
+                <h4 class="td">Your Details</h4>
+                <form>
+                  <div class="form-group">
+                    <label for="name" class="label">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      placeholder="Your name"
+                      style="font-size: 0.9rem"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="email" class="label">Email address</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="Enter email"
+                      style="font-size: 0.9rem"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="address" class="label">Shipping Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      placeholder="1234 Main St"
+                      style="font-size: 0.9rem"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <h5 style="font-size: 14px; color: #cd3234">
+                      HOW WOULD YOU LIKE TO PAY FOR YOUR ORDER?
+                    </h5>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="1"
+                        checked
+                      />
+                      <label class="form-check-label label" for="1">
+                        Mpesa
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="2"
+                      />
+                      <label class="form-check-label label" for="2">
+                        Card Payment
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="flexRadioDefault"
+                        id="3"
+                      />
+                      <label class="form-check-label label" for="3">
+                        Pesapal
+                      </label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 order-details">
+            <!-- Order Details -->
+            <h4 class="td">Your Order</h4>
+            <div>
+              <p>
+                <span style="color: #54595f">Product:</span>
+                <span style="float: right; color: #54595f">Subtotal</span>
+              </p>
+              <p>
+                <span>Chupa Chap:</span>
+                <span style="float: right">KES 2000.00</span>
+              </p>
+              <p>
+                <span>Chicken:</span>
+                <span style="float: right">KES 500.00</span>
+              </p>
+              <p>
+                <span>Total:</span>
+                <span style="float: right"><span id="totalPrice"></span></span>
+              </p>
+            </div>
+            <h4 class="td">Delivery Options</h4>
+            <div class="shipping-option">
+              <input
+                type="radio"
+                id="letaShipping"
+                name="shipping"
+                value="100"
+              />
+              <label for="letaShipping" style="font-weight: 500"
+                >Leta
+                <img
+                  src="img/redgo2.png"
+                  alt="Standard Logo"
+                  style="width: 33px"
+              /></label>
+              <span style="float: right">KES 100</span>
+              <p class="shipping-description text-muted">Fast delivery</p>
+            </div>
+            <div class="shipping-option">
+              <input
+                type="radio"
+                id="standardShipping"
+                name="shipping"
+                value="250"
+                checked
+              />
+              <span style="font-weight: 500">3PL Partner</span>
+              <label for="standardShipping" style="float: right"> KES 250</label>
+              <p class="shipping-description text-muted">Takes 1-2 days</p>
+            </div>
+
+            <div style="text-align: center">
+              <button class="btn place-order-btn mt-3">PLACE ORDER</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <footer
+      class="text-center"
+      style="
+        background-color: #f8f9fa;
+        padding: 51px 20px 20px;
+        margin-top: 20px;
+        width: 100%;
+      "
+    >
+      <span style="color: #6d6e6f; font-size: 12px"
+        >All rights reserved ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script></span
+      >
+    </footer>
+    <!-- Delivery Time Slot Modal -->
+    <div
+      class="modal fade"
+      id="deliveryTimeSlotModal"
+      tabindex="-1"
+      aria-labelledby="modalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">
+              Select Your Preferred Delivery Time
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Delivery slots will be loaded here -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap and jQuery libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Static JSON data for delivery time slots
+        const deliverySlots = [
+          {
+            "id": "slot1",
+            "time": "9:00 AM - 12:00 PM",
+            "cost": 5
+          },
+          {
+            "id": "slot2",
+            "time": "12:00 PM - 3:00 PM",
+            "cost": 5
+          },
+          {
+            "id": "slot3",
+            "time": "3:00 PM - 6:00 PM",
+            "cost": 7
+          }
+        ];
+
+        // Assume a base price for demonstration
+        let basePrice = 2500;
+        let shippingCost = 0;
+
+        // Check if a shipping option is already checked on page load
+        const selectedShipping = document.querySelector('input[name="shipping"]:checked');
+        if (selectedShipping) {
+          shippingCost = parseFloat(selectedShipping.value);
+        }
+        updateTotalPrice();
+
+        // Listen for changes on shipping options
+        document.querySelectorAll('input[name="shipping"]').forEach(function(elem) {
+          elem.addEventListener('change', function(event) {
+            shippingCost = parseFloat(event.target.value);
+            updateTotalPrice();
+
+            // Trigger modal for 'standardShipping' option
+            if (event.target.id === 'letaShipping') {
+              displayDeliverySlots();
+              $('#deliveryTimeSlotModal').modal('show');
+            }
+          });
+        });
+
+        function updateTotalPrice() {
+          let totalPrice = basePrice + shippingCost;
+          document.getElementById('totalPrice').textContent = `KES ${totalPrice.toFixed(2)}`;
+        }
+
+        // Function to display delivery slots in the modal
+        function displayDeliverySlots() {
+          const modalBody = document.querySelector('#deliveryTimeSlotModal .modal-body');
+          modalBody.innerHTML = ''; // Clear existing content
+          deliverySlots.forEach(slot => {
+            const slotDiv = document.createElement('div');
+            slotDiv.className = 'delivery-slot';
+            slotDiv.innerHTML = `<h5>${slot.time}</h5><p>Extra cost: $${slot.cost}</p>`;
+            modalBody.appendChild(slotDiv);
+          });
+        }
+      });
+    </script>
+
+  </body>
+</html>

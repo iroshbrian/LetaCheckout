@@ -1,0 +1,52 @@
+body {
+  padding-top: 56px; /* Ensure navbar doesn't overlap content */
+}
+.theme-color {
+  background-color: #CD3234;
+  color: #ffffff;
+}
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+.step-badge {
+  padding: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+.inactive-step {
+  background-color: #ccc;
+}
+.active-step {
+  background-color: #CD3234;
+}
+.checkout-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin: 20px auto;
+  width: 90%;
+}
+.order-details {
+  width: 33%;
+}
+.checkout-form {
+  width: 66%;
+}
+.steps {
+  display: flex;
+  justify-content: space-between;
+  list-style-type: none;
+  padding: 0;
+}
+
+.steps li {
+  display: flex;
+  align-items: center;
+}
+
+.steps li h4 {
+  margin-left: 10px;
+}

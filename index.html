@@ -151,9 +151,9 @@
         font-size: 24px;
       }
       .navbar .nav-link {
-        font-size: 9px;
+        font-size: 10px;
+        color: #555555;
       }
-
       .navbar .nav-link i {
         margin-right: 5px; /* Space between icon and text */
       }
@@ -165,14 +165,24 @@
         border-radius: 5px;
         background-color: #f8f9fa;
       }
-
       .delivery-slot h5 {
         margin: 0;
         color: #333;
+        font-size: 14px;
       }
-
       .delivery-slot p {
         color: #666;
+        font-size: 12px;
+      }
+      .delivery-slot .btn{
+        font-size: 12px;
+      }
+      .btn.btn-primary{
+        background-color: #cd3234;
+        border-color: #cd3234;
+      }
+      .btn{
+        font-size: 12px;
       }
     </style>
   </head>
@@ -497,7 +507,7 @@
           deliverySlots.forEach(slot => {
             const slotDiv = document.createElement('div');
             slotDiv.className = 'delivery-slot';
-            slotDiv.innerHTML = `<h5>${slot.time}</h5><p>Extra cost: $${slot.cost}</p>`;
+            slotDiv.innerHTML = `<h5>${slot.time}</h5><p>Extra cost: KES ${slot.cost}</p>`;
             modalBody.appendChild(slotDiv);
           });
         }

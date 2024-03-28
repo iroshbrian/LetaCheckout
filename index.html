@@ -133,6 +133,10 @@
       .shipping-option label img {
         width: 50px; /* Adjust size as needed */
         margin-right: 10px;
+        margin-left: -2%;
+      }
+      .fast {
+        margin-left: -9% !important;
       }
       #totalPrice {
         font-size: 18px;
@@ -152,7 +156,7 @@
       }
       .navbar .nav-link {
         font-size: 10px;
-        color: #555555;
+        color: #0d6efd;
       }
       .navbar .nav-link i {
         margin-right: 5px; /* Space between icon and text */
@@ -164,25 +168,56 @@
         margin-bottom: 10px;
         border-radius: 5px;
         background-color: #f8f9fa;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
       }
       .delivery-slot h5 {
         margin: 0;
-        color: #333;
         font-size: 14px;
+        margin: 0;
+        color: inherit; /* Ensure text color inheritance for consistent styling */
+      }
+      #modalLabel {
+        margin: 0;
+        color: #cd3234;
+        font-size: 15px;
+        text-transform: uppercase;
       }
       .delivery-slot p {
         color: #666;
         font-size: 12px;
       }
-      .delivery-slot .btn{
+      .delivery-slot:hover p {
+        color: #cd3234;
+      }
+      .delivery-slot .btn {
         font-size: 12px;
       }
-      .btn.btn-primary{
+      .btn.btn-primary {
         background-color: #cd3234;
         border-color: #cd3234;
       }
-      .btn{
+      .btn {
         font-size: 12px;
+      }
+      #notificationOption {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: none; /* Initially hidden */
+      }
+
+      #notificationOption label {
+        display: block;
+        color: #333;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      #notificationOption input[type="radio"] {
+        margin-right: 10px;
       }
     </style>
   </head>
@@ -224,8 +259,8 @@
           </li>
           <li class="nav-item"><a class="nav-link" href="#">Healthy</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Supermarket</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Event</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Easter</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
         </ul>
       </div>
@@ -362,8 +397,12 @@
                 >Leta
                 <img
                   src="img/redgo2.png"
-                  alt="Standard Logo"
-                  style="width: 33px"
+                  alt="Standard"
+                  style="width: 33px" /><img
+                  src="img/fast.png"
+                  alt="Logo"
+                  style="width: 30px"
+                  class="fast"
               /></label>
               <span style="float: right">KES 100</span>
               <p class="shipping-description text-muted">Fast delivery</p>
@@ -377,7 +416,9 @@
                 checked
               />
               <span style="font-weight: 500">3PL Partner</span>
-              <label for="standardShipping" style="float: right"> KES 250</label>
+              <label for="standardShipping" style="float: right">
+                KES 250</label
+              >
               <p class="shipping-description text-muted">Takes 1-2 days</p>
             </div>
 
@@ -417,7 +458,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="modalLabel">
-              Select Your Preferred Delivery Time
+              What time would you like your delivery?
             </h5>
             <button
               type="button"
@@ -439,80 +480,136 @@
             >
               Close
             </button>
-            <button type="button" class="btn btn-primary">Save Changes</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="saveChangesButton"
+            >
+              Save Changes
+            </button>
           </div>
         </div>
       </div>
     </div>
-
+    <div id="skeletonScreen" style="display: none;">
+      <div class="ghost-container" style="padding: 20px; background-color: #f0f0f0; margin-top: 20px;">
+        <div class="ghost-header" style="width: 70%; height: 20px; background-color: #e0e0e0; margin-bottom: 10px;"></div>
+        <div class="ghost-text" style="width: 100%; height: 15px; background-color: #e0e0e0; margin-bottom: 5px;"></div>
+        <div class="ghost-text" style="width: 90%; height: 15px; background-color: #e0e0e0; margin-bottom: 5px;"></div>
+        <div class="ghost-text" style="width: 60%; height: 15px; background-color: #e0e0e0;"></div>
+      </div>
+    </div>
     <!-- Bootstrap and jQuery libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener("DOMContentLoaded", function () {
         // Static JSON data for delivery time slots
         const deliverySlots = [
           {
-            "id": "slot1",
-            "time": "9:00 AM - 12:00 PM",
-            "cost": 5
+            id: "slot1",
+            time: "9:00 AM - 12:00 PM",
+            cost: 10,
           },
           {
-            "id": "slot2",
-            "time": "12:00 PM - 3:00 PM",
-            "cost": 5
+            id: "slot2",
+            time: "12:00 PM - 3:00 PM",
+            cost: 15,
           },
           {
-            "id": "slot3",
-            "time": "3:00 PM - 6:00 PM",
-            "cost": 7
-          }
+            id: "slot3",
+            time: "3:00 PM - 6:00 PM",
+            cost: 70,
+          },
+          {
+            id: "slot4",
+            time: "Next Day Delivery",
+            cost: 0,
+          },
         ];
 
         // Assume a base price for demonstration
         let basePrice = 2500;
         let shippingCost = 0;
+        let selectedSlotCost = 0; // Additional cost for selected time slot
 
         // Check if a shipping option is already checked on page load
-        const selectedShipping = document.querySelector('input[name="shipping"]:checked');
+        const selectedShipping = document.querySelector(
+          'input[name="shipping"]:checked'
+        );
         if (selectedShipping) {
           shippingCost = parseFloat(selectedShipping.value);
         }
         updateTotalPrice();
 
         // Listen for changes on shipping options
-        document.querySelectorAll('input[name="shipping"]').forEach(function(elem) {
-          elem.addEventListener('change', function(event) {
-            shippingCost = parseFloat(event.target.value);
-            updateTotalPrice();
+        document
+          .querySelectorAll('input[name="shipping"]')
+          .forEach(function (elem) {
+            elem.addEventListener("change", function (event) {
+              shippingCost = parseFloat(event.target.value);
+              updateTotalPrice();
 
-            // Trigger modal for 'standardShipping' option
-            if (event.target.id === 'letaShipping') {
-              displayDeliverySlots();
-              $('#deliveryTimeSlotModal').modal('show');
-            }
+              // Trigger modal for 'standardShipping' option
+              if (event.target.id === "letaShipping") {
+                displayDeliverySlots();
+                $("#deliveryTimeSlotModal").modal("show");
+              }
+            });
           });
-        });
 
         function updateTotalPrice() {
-          let totalPrice = basePrice + shippingCost;
-          document.getElementById('totalPrice').textContent = `KES ${totalPrice.toFixed(2)}`;
+          let totalPrice = basePrice + shippingCost + selectedSlotCost;
+          document.getElementById(
+            "totalPrice"
+          ).textContent = `KES ${totalPrice.toFixed(2)}`;
         }
 
-        // Function to display delivery slots in the modal
+        // Function to display delivery slots in the modal and add event listeners
         function displayDeliverySlots() {
-          const modalBody = document.querySelector('#deliveryTimeSlotModal .modal-body');
-          modalBody.innerHTML = ''; // Clear existing content
-          deliverySlots.forEach(slot => {
-            const slotDiv = document.createElement('div');
-            slotDiv.className = 'delivery-slot';
+          const modalBody = document.querySelector(
+            "#deliveryTimeSlotModal .modal-body"
+          );
+          modalBody.innerHTML = ""; // Clear existing content
+          deliverySlots.forEach((slot) => {
+            const slotDiv = document.createElement("div");
+            slotDiv.className = "delivery-slot";
             slotDiv.innerHTML = `<h5>${slot.time}</h5><p>Extra cost: KES ${slot.cost}</p>`;
             modalBody.appendChild(slotDiv);
+
+            slotDiv.addEventListener("click", function () {
+              // Remove selected class from all slots and update selectedSlotCost
+              document.querySelectorAll(".delivery-slot").forEach((el) => {
+                el.classList.remove("selected");
+              });
+              this.classList.add("selected");
+              selectedSlotCost = slot.cost; // Update selected slot cost
+              updateTotalPrice(); // Update total price with new slot cost
+
+              // Display notification option
+              const notificationOption =
+                document.getElementById("notificationOption");
+              if (notificationOption) {
+                notificationOption.style.display = "block";
+              } else {
+                const notificationDiv = document.createElement("div");
+                notificationDiv.id = "notificationOption";
+                notificationDiv.innerHTML = `
+                   <span style="font-size: 16px; font-weight: 500">You will be notified when the rider is on his way</span>
+                `;
+                modalBody.appendChild(notificationDiv);
+              }
+            });
           });
         }
+        // Close modal on "Save Changes" button click
+        document
+          .getElementById("saveChangesButton")
+          .addEventListener("click", function () {
+            $("#deliveryTimeSlotModal").modal("hide");
+          });
       });
     </script>
-
   </body>
 </html>

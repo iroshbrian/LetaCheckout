@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/style.css" />
+    <!-- Bootstrap and jQuery libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+      .main-navbar {
+        background-color: #fff;
+        color: #000;
+        border-bottom: 2px solid #ccc;
+      }
+      .sublevel-navbar {
+        background-color: #cd3234;
+        color: #ffffff;
+        height: 40px; /* Smaller height than the main navbar */
+      }
+      .sublevel-navbar .navbar-nav .nav-link {
+        color: #ffffff;
+        margin-right: 20px;
+        font-size: 14px;
+        text-transform: uppercase;
+      }
+      .theme-color {
+        background-color: #cd3234;
+        color: #ffffff;
+      }
+      body {
+        padding-top: 56px; /* Ensure navbar doesn't overlap content */
+        font-family: "Poppins", sans-serif;
+      }
+      .poppins-regular {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+      }
+      .steps span {
+        margin: 0 10px;
+        font-size: 24px;
+        font-weight: 600;
+      }
+      .badge-number {
+        background-color: #ccc;
+        color: #fff;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        display: inline-block;
+        line-height: 25px;
+        font-weight: 600;
+        font-size: 18px !important;
+      }
+      .active-step {
+        cursor: pointer;
+      }
+      .active-step .badge-number {
+        background-color: #cd3234;
+      }
+      .checkout-container {
+        padding: 20px;
+        margin: 20px auto;
+        width: 90%;
+      }
+      .order-details {
+        border: 2px solid #cd3234;
+        padding: 20px;
+        border-radius: 2px;
+        margin-top: 20px;
+      }
+      .checkout-form {
+        width: 65%;
+        margin-right: 2%;
+      }
+      .place-order-btn {
+        color: #cd3234;
+        border-color: #cd3234;
+        background-color: #fff;
+        transition: background-color 0.3s ease;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 1px;
+      }
+      .place-order-btn:hover {
+        background-color: #cd3234;
+        color: #fff;
+      }
+      .inactive-step {
+        color: #ccc;
+        cursor: pointer;
+      }
+      .inactive-step:hover {
+        color: #000;
+      }
+      .label {
+        line-height: 2;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+      .td {
+        font-size: 14px;
+        padding: 20px 0 14px;
+        margin: 0 0 20px;
+        border-bottom: 1px solid #ebebeb;
+        color: #cd3234;
+        text-transform: uppercase;
+      }
+      .shipping-option {
+        margin: 10px 0;
+      }
+      .shipping-description {
+        font-size: 0.8rem;
+      }
+      .shipping-option label img {
+        width: 50px; /* Adjust size as needed */
+        margin-right: 10px;
+        margin-left: -2%;
+      }
+      .fast {
+        margin-left: -9% !important;
+      }
+      #totalPrice {
+        font-size: 18px;
+        margin: 20px 0;
+        color: #cd3234;
+      }
+      .divider {
+        position: relative;
+        top: 0;
+        opacity: 0.35;
+        margin: 0 0.3em;
+        font-weight: 300;
+        color: #333;
+        letter-spacing: 0;
+        padding: 0;
+        font-size: 24px;
+      }
+      .navbar .nav-link {
+        font-size: 10px;
+        color: #0d6efd;
+      }
+      .navbar .nav-link i {
+        margin-right: 5px; /* Space between icon and text */
+      }
+      /* Modal Styling */
+      .delivery-slot {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        cursor: pointer;
+        transition: background-color 0.3s ease-in-out;
+      }
+      .delivery-slot h5 {
+        margin: 0;
+        font-size: 14px;
+        margin: 0;
+        color: inherit; /* Ensure text color inheritance for consistent styling */
+      }
+      #modalLabel {
+        margin: 0;
+        color: #cd3234;
+        font-size: 15px;
+        text-transform: uppercase;
+      }
+      .delivery-slot p {
+        color: #666;
+        font-size: 12px;
+      }
+      .delivery-slot:hover p {
+        color: #cd3234;
+      }
+      .delivery-slot .btn {
+        font-size: 12px;
+      }
+      .btn.btn-primary {
+        background-color: #cd3234;
+        border-color: #cd3234;
+      }
+      .btn {
+        font-size: 12px;
+      }
+      #notificationOption {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: none; /* Initially hidden */
+      }
+
+      #notificationOption label {
+        display: block;
+        color: #333;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      #notificationOption input[type="radio"] {
+        margin-right: 10px;
+      }
+      #orderComplete {
+        text-align: center;
+        padding: 50px 20px;
+        max-width: 600px;
+        margin: 100px auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+      }
+
+      #orderComplete .checkmark-container {
+        margin: 0 auto 30px;
+        display: flex;
+        justify-content: center;
+      }
+
+      #orderComplete .checkmark-container img,
+      #orderComplete .checkmark-container i {
+        color: #4CAF50; /* Only applies if using FontAwesome icon */
+        font-size: 48px; /* FontAwesome icon size */
+        width: 100px; /* Adjust based on your actual image if using SVG */
+      }
+
+      #orderComplete h2 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      #orderComplete p {
+        font-size: 18px;
+        color: #666;
+      }
+
+    </style>
+  </head>
+  <body>
+    <!-- Main Navbar -->
+    <nav class="navbar navbar-expand-lg main-navbar fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="#"
+          ><img src="img/leta_logo.svg" alt="logo" width="60%"
+        /></a>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav mr-auto">
+            <!-- Navbar content like product links can go here -->
+          </div>
+          <!-- Login/SignUp on the right -->
+          <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link" href="#"
+              ><i class="fas fa-user"></i> Login/SignUp</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Sublevel Navbar -->
+    <nav
+      class="navbar navbar-expand sublevel-navbar fixed-top"
+      style="top: 56px"
+    >
+      <div class="container" style="justify-content: space-evenly">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Drinks</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Pharmacy</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Food</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">New</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Fruit & Veg</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Ready To Eat</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#">Healthy</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Supermarket</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Event</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Easter</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Sale</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container-fluid" style="margin-top: 5rem">
+      <div id="orderComplete">
+        <div class="checkmark-container">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2>Order Complete</h2>
+        <p>Thank you for using Leta GO</p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -20,6 +20,10 @@
       rel="stylesheet"
     />
     <link href="css/style.css" />
+    <!-- Bootstrap and jQuery libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
       .main-navbar {
         background-color: #fff;
@@ -205,7 +209,7 @@
         padding: 15px;
         background-color: #fff;
         border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         display: none; /* Initially hidden */
       }
 
@@ -281,7 +285,7 @@
         <span class="divider">&gt;</span>
       </div>
       <!-- Checkout Form and Order Details -->
-      <div class="container mt-5">
+      <div class="container mt-5 tbh">
         <div class="row">
           <div class="col-md-7">
             <!-- Checkout Form -->
@@ -423,7 +427,9 @@
             </div>
 
             <div style="text-align: center">
-              <button class="btn place-order-btn mt-3">PLACE ORDER</button>
+              <button class="btn place-order-btn mt-3" id="placeOrderButton">
+                PLACE ORDER
+              </button>
             </div>
           </div>
         </div>
@@ -491,59 +497,86 @@
         </div>
       </div>
     </div>
-    <div id="skeletonScreen" style="display: none;">
-      <div class="ghost-container" style="padding: 20px; background-color: #f0f0f0; margin-top: 20px;">
-        <div class="ghost-header" style="width: 70%; height: 20px; background-color: #e0e0e0; margin-bottom: 10px;"></div>
-        <div class="ghost-text" style="width: 100%; height: 15px; background-color: #e0e0e0; margin-bottom: 5px;"></div>
-        <div class="ghost-text" style="width: 90%; height: 15px; background-color: #e0e0e0; margin-bottom: 5px;"></div>
-        <div class="ghost-text" style="width: 60%; height: 15px; background-color: #e0e0e0;"></div>
+    <div class="container mt-5">
+      <div id="skeletonScreen" style="display: none">
+        <div
+          class="ghost-container"
+          style="padding: 20px; background-color: #f0f0f0; margin-top: 20px"
+        >
+          <div
+            class="ghost-header"
+            style="
+              width: 70%;
+              height: 20px;
+              background-color: #e0e0e0;
+              margin-bottom: 10px;
+            "
+          ></div>
+          <div
+            class="ghost-text"
+            style="
+              width: 100%;
+              height: 15px;
+              background-color: #e0e0e0;
+              margin-bottom: 5px;
+            "
+          ></div>
+          <div
+            class="ghost-text"
+            style="
+              width: 90%;
+              height: 15px;
+              background-color: #e0e0e0;
+              margin-bottom: 5px;
+            "
+          ></div>
+          <div
+            class="ghost-text"
+            style="width: 60%; height: 15px; background-color: #e0e0e0"
+          ></div>
+        </div>
       </div>
     </div>
-    <!-- Bootstrap and jQuery libraries -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Static JSON data for delivery time slots
         const deliverySlots = [
           {
             id: "slot1",
             time: "9:00 AM - 12:00 PM",
-            cost: 10,
+            cost: 100,
+            notification: "Get notified when the rider is ready?",
           },
           {
             id: "slot2",
             time: "12:00 PM - 3:00 PM",
-            cost: 15,
+            cost: 70,
+            notification: "Enable notifications for delivery updates?",
           },
           {
             id: "slot3",
             time: "3:00 PM - 6:00 PM",
-            cost: 70,
+            cost: 50,
+            notification: "Would you like to track your delivery in real-time?",
           },
           {
             id: "slot4",
             time: "Next Day Delivery",
             cost: 0,
+            notification: "Would you like to track your delivery in real-time?",
           },
         ];
 
-        // Assume a base price for demonstration
-        let basePrice = 2500;
+        let basePrice = 100;
         let shippingCost = 0;
-        let selectedSlotCost = 0; // Additional cost for selected time slot
+        let selectedSlotCost = 0;
 
-        // Check if a shipping option is already checked on page load
-        const selectedShipping = document.querySelector(
-          'input[name="shipping"]:checked'
-        );
-        if (selectedShipping) {
-          shippingCost = parseFloat(selectedShipping.value);
+        function updateTotalPrice() {
+          let totalPrice = basePrice + shippingCost + selectedSlotCost;
+          document.getElementById(
+            "totalPrice"
+          ).textContent = `Total Price: $${totalPrice.toFixed(2)}`;
         }
-        updateTotalPrice();
 
-        // Listen for changes on shipping options
         document
           .querySelectorAll('input[name="shipping"]')
           .forEach(function (elem) {
@@ -551,7 +584,6 @@
               shippingCost = parseFloat(event.target.value);
               updateTotalPrice();
 
-              // Trigger modal for 'standardShipping' option
               if (event.target.id === "letaShipping") {
                 displayDeliverySlots();
                 $("#deliveryTimeSlotModal").modal("show");
@@ -559,55 +591,56 @@
             });
           });
 
-        function updateTotalPrice() {
-          let totalPrice = basePrice + shippingCost + selectedSlotCost;
-          document.getElementById(
-            "totalPrice"
-          ).textContent = `KES ${totalPrice.toFixed(2)}`;
-        }
-
-        // Function to display delivery slots in the modal and add event listeners
         function displayDeliverySlots() {
           const modalBody = document.querySelector(
             "#deliveryTimeSlotModal .modal-body"
           );
-          modalBody.innerHTML = ""; // Clear existing content
+          modalBody.innerHTML = "";
           deliverySlots.forEach((slot) => {
             const slotDiv = document.createElement("div");
             slotDiv.className = "delivery-slot";
             slotDiv.innerHTML = `<h5>${slot.time}</h5><p>Extra cost: KES ${slot.cost}</p>`;
+            const notificationDiv = document.createElement("div");
+            notificationDiv.className = "notification-option";
+            notificationDiv.innerHTML = `<label style="font-size: 12px"><input type="radio" name="notification" value="yes"> ${slot.notification}</label>`;
+            notificationDiv.style.display = "none"; // Initially hidden
+            slotDiv.appendChild(notificationDiv);
             modalBody.appendChild(slotDiv);
 
             slotDiv.addEventListener("click", function () {
-              // Remove selected class from all slots and update selectedSlotCost
               document.querySelectorAll(".delivery-slot").forEach((el) => {
                 el.classList.remove("selected");
+                el.getElementsByClassName(
+                  "notification-option"
+                )[0].style.display = "none";
               });
               this.classList.add("selected");
-              selectedSlotCost = slot.cost; // Update selected slot cost
-              updateTotalPrice(); // Update total price with new slot cost
-
-              // Display notification option
-              const notificationOption =
-                document.getElementById("notificationOption");
-              if (notificationOption) {
-                notificationOption.style.display = "block";
-              } else {
-                const notificationDiv = document.createElement("div");
-                notificationDiv.id = "notificationOption";
-                notificationDiv.innerHTML = `
-                   <span style="font-size: 16px; font-weight: 500">You will be notified when the rider is on his way</span>
-                `;
-                modalBody.appendChild(notificationDiv);
-              }
+              this.getElementsByClassName(
+                "notification-option"
+              )[0].style.display = "block";
+              selectedSlotCost = slot.cost;
+              updateTotalPrice();
             });
           });
         }
-        // Close modal on "Save Changes" button click
+
         document
           .getElementById("saveChangesButton")
           .addEventListener("click", function () {
-            $("#deliveryTimeSlotModal").modal("hide");
+            $("#deliveryTimeSlotModal").modal("hide"); // Use Bootstrap's method to hide the modal
+          });
+
+        document
+          .getElementById("placeOrderButton")
+          .addEventListener("click", function () {
+            document.querySelector(".tbh").style.display = "none"; // Hide current checkout content
+            document.getElementById("skeletonScreen").style.display = "block"; // Show skeleton loader
+
+            // Redirect to 'order_complete.html' after a delay
+            setTimeout(function () {
+              // Use window.location to navigate to the new page
+              window.location.href = "order_complete.html";
+            }, 3000); // Simulated loading delay
           });
       });
     </script>

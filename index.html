@@ -584,7 +584,7 @@
     </div>
     <!-- Footer -->
     <footer
-      class="text-center"
+      class="text-center footer"
       style="
         background-color: #f8f9fa;
         padding: 51px 20px 20px;
@@ -742,6 +742,7 @@
           .getElementById("placeOrderButton")
           .addEventListener("click", function () {
             document.querySelector(".tbh").style.display = "none"; // Hide current checkout content
+            document.querySelector(".footer").style.display = "none"; // Hide current checkout content
             document.getElementById("skeletonScreen").style.display = "block"; // Show skeleton loader
 
             // Redirect to 'order_complete.html' after a delay

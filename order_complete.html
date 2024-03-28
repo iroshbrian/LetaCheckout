@@ -137,27 +137,8 @@
       .shipping-option label img {
         width: 50px; /* Adjust size as needed */
         margin-right: 10px;
-        margin-left: -2%;
       }
-      .fast {
-        margin-left: -9% !important;
-      }
-      #totalPrice {
-        font-size: 18px;
-        margin: 20px 0;
-        color: #cd3234;
-      }
-      .divider {
-        position: relative;
-        top: 0;
-        opacity: 0.35;
-        margin: 0 0.3em;
-        font-weight: 300;
-        color: #333;
-        letter-spacing: 0;
-        padding: 0;
-        font-size: 24px;
-      }
+
       .navbar .nav-link {
         font-size: 10px;
         color: #0d6efd;
@@ -253,7 +234,11 @@
 
       #orderComplete p {
         font-size: 18px;
-        color: #666;
+        color: black;
+        /*background: #cd3234;*/
+        width: 50%;
+        text-align: center;
+        margin: auto;
       }
 
     </style>
@@ -303,12 +288,34 @@
       </div>
     </nav>
     <div class="container-fluid" style="margin-top: 5rem">
+      <div class="steps text-center">
+        <span class="inactive-step"
+        ><span class="badge-number">1</span> SHOPPING CART</span
+        >
+        <span class="divider">&gt;</span>
+        <span class="inactive-step"
+        ><span class="badge-number">2</span> CHECKOUT DETAILS</span
+        >
+        <span class="divider">&gt;</span>
+        <span class="active-step"
+        ><span class="badge-number">3</span> ORDER COMPLETE</span
+        >
+        <span class="divider">&gt;</span>
+      </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 7rem">
       <div id="orderComplete">
         <div class="checkmark-container">
           <i class="fas fa-check-circle"></i>
         </div>
         <h2>Order Complete</h2>
-        <p>Thank you for using Leta GO</p>
+        <p>Thank you for using
+          <img src="img/leta_logo.svg" alt="logo" width="57px"
+          />
+          <img
+          src="img/redgo2.png"
+          alt="Standard"
+          style="width: 33px" /></span></p>
       </div>
     </div>
   </body>
